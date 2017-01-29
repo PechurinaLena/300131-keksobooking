@@ -6,15 +6,14 @@ var dialogClose = document.querySelector('.dialog__close');
 function toggle() {
   for (var i = 0; i < pins.length; i++) {
     pins[i].classList.remove('pin--active');
-            // dialog.style.display='none';
   }
   this.classList.add('pin--active');
+  dialog.style.display = 'block';
 }
 
 
 dialogClose.addEventListener('click', function () {
-  dialog.style.display="none";
-//  здесь еще не доделано
+  dialog.style.display = 'none';
 });
 
 for (var i = 0; i < pins.length; i++) {
