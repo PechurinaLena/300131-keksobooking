@@ -20,3 +20,15 @@ for (var i = 0; i < pins.length; i++) {
   var element = pins[i];
   element.addEventListener('click', toggle);
 }
+
+var inputTitle = document.getElementById('title');
+var inputPrice = document.getElementById('price');
+var inputAddress = document.getElementById('address');
+inputTitle.required = true;
+inputTitle.minLength = 30;
+inputTitle.maxLength = 100;
+inputPrice.required = true;
+inputPrice.setAttribute('type', 'number');
+inputPrice.min = 1000;
+inputPrice.max = 1000000;
+inputAddress.required = true;
