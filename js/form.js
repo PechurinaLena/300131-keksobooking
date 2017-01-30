@@ -2,9 +2,10 @@
 var pins = document.querySelectorAll('.pin');
 var dialog = document.querySelector('.dialog');
 var dialogClose = document.querySelector('.dialog__close');
+var i;
 
 function toggle() {
-  for (var i = 0; i < pins.length; i++) {
+  for (i = 0; i < pins.length; i++) {
     pins[i].classList.remove('pin--active');
   }
   this.classList.add('pin--active');
@@ -16,7 +17,7 @@ dialogClose.addEventListener('click', function () {
   dialog.style.display = 'none';
 });
 
-for (var i = 0; i < pins.length; i++) {
+for (i = 0; i < pins.length; i++) {
   var element = pins[i];
   element.addEventListener('click', toggle);
 }
@@ -39,7 +40,6 @@ var myForm = document.forms.my;
 var checkinTime = myForm.elements.time; //массив options с временем заезда
 var checkoutTime = myForm.elements.timeout; //массив options с временем выезда
 var housing = myForm.elements.type;
-console.log(housing);
 
 function checkinTimeChanged() {
   checkoutTime.value = checkinTime.value;
@@ -49,11 +49,11 @@ function checkoutTimeChanged() {
 }
 
 function housingTypeChanged() {
-  for (var i = 0; i < housing.options.length; i++) {
+  for (i = 0; i < housing.options.length; i++) {
     var option = housing.options[i];
     if (option.selected) {
       switch (option.value) {
-        case 'apartment': 
+        case 'apartment':
           inputPrice.min = 1000;
           inputPrice.placeholder = 1000;
           break;
