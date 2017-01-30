@@ -115,7 +115,7 @@
         <p class="notice__info">Заполните все обязательные поля, назначьте цену, загрузите фотографии. Придумайте интересное описание. Оно сделает объявление более живым и привлекательным. Получившееся объявление должно давать гостям полное представление о вашем жилье.</p>
       </div>
     </div>
-    <form class="notice__form">
+    <form class="notice__form" name="my">
       <div class="form__content">
         <div class="form__panel">
           <div class="form__element  form__element--wide">
@@ -140,9 +140,9 @@
             <div class="form__element">
               <label for="room_number">Кол-во комнат</label>
               <select id="room_number">
-                <option selected>1 комната</option>
-                <option>2 комнаты</option>
-                <option>100 комнат</option>
+                <option selected value="1room">1 комната</option>
+                <option value="2room">2 комнаты</option>
+                <option value="100room">100 комнат</option>
               </select>
             </div>
             <div class="form__element">
@@ -167,17 +167,17 @@
             <div class="form__element">
               <label for="time">Время заезда и выезда</label>
               <select id="time">
-                <option selected>После 12</option>
-                <option>После 13</option>
-                <option>После 14</option>
+                <option value="in12">После 12</option>
+                <option value="in13">После 13</option>
+                <option value="in14">После 14</option>
               </select>
             </div>
             <div class="form__element">
               <label for="timeout">&nbsp;</label>
               <select id="timeout" title="Time to go out">
-                <option selected>Выезд до 12</option>
-                <option>Выезд до 13</option>
-                <option>Выезд до 14</option>
+                <option selected value="out12">Выезд до 12</option>
+                <option value="out13">Выезд до 13</option>
+                <option value="out14">Выезд до 14</option>
               </select>
             </div>
           </div>

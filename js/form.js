@@ -32,3 +32,25 @@ inputPrice.setAttribute('type', 'number');
 inputPrice.min = 1000;
 inputPrice.max = 1000000;
 inputAddress.required = true;
+
+
+var myForm = document.forms.my;
+var checkinTime = myForm.elements.time; //массив options с временем заезда
+var checkoutTime = myForm.elements.timeout; //массив options с временем выезда
+
+function selectTimeIn() {
+  for (var i = 0; i < checkinTime.options.length; i++) {
+    var optionIn = checkinTime.options[i];
+    var optionOut = checkoutTime.options[i];
+    checkinTime.removeAttribute('selected'); // сначала удаляю атрибуты selected у всех элементов массива с временем заезда, мне кажется, это неправильно, но как еще сделать - пока хз
+    if (optionIn.selected) {
+      var index = optionIn.index;
+      checkoutTime[index].setAttribute('selected', '');
+    } else {
+      optionOut.removeAttribute('selected');
+    }
+
+  }
+}
+
+myForm.addEventListener('click', selectTimeIn);
