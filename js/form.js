@@ -32,25 +32,45 @@ inputPrice.setAttribute('type', 'number');
 inputPrice.min = 1000;
 inputPrice.max = 1000000;
 inputAddress.required = true;
+inputPrice.placeholder = 1000;
 
 
 var myForm = document.forms.my;
 var checkinTime = myForm.elements.time; //массив options с временем заезда
 var checkoutTime = myForm.elements.timeout; //массив options с временем выезда
+var housing = myForm.elements.type;
+console.log(housing);
 
-function selectTimeIn() {
-  for (var i = 0; i < checkinTime.options.length; i++) {
-    var optionIn = checkinTime.options[i];
-    var optionOut = checkoutTime.options[i];
-    checkinTime.removeAttribute('selected'); // сначала удаляю атрибуты selected у всех элементов массива с временем заезда, мне кажется, это неправильно, но как еще сделать - пока хз
-    if (optionIn.selected) {
-      var index = optionIn.index;
-      checkoutTime[index].setAttribute('selected', '');
-    } else {
-      optionOut.removeAttribute('selected');
-    }
-
-  }
+function checkinTimeChanged() {
+  checkoutTime.value = checkinTime.value;
+}
+function checkoutTimeChanged() {
+  checkinTime.value = checkoutTime.value;
 }
 
-myForm.addEventListener('click', selectTimeIn);
+function housingTypeChanged() {
+  for (var i = 0; i < housing.options.length; i++) {
+    var option = housing.options[i];
+    if (option.selected) {
+      switch (option.value) {
+        case 'apartment': 
+          inputPrice.min = 1000;
+          inputPrice.placeholder = 1000;
+          break;
+        case 'hovel':
+          inputPrice.min = 0;
+          inputPrice.placeholder = 0;
+          break;
+        case 'palace':
+          inputPrice.min = 10000;
+          inputPrice.placeholder = 10000;
+          break;
+      }
+    }
+  }
+
+}
+
+checkinTime.addEventListener('change', checkinTimeChanged);
+checkoutTime.addEventListener('change', checkoutTimeChanged);
+housing.addEventListener('change', housingTypeChanged);
