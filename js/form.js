@@ -2,25 +2,23 @@
 var pins = document.querySelectorAll('.pin');
 var dialog = document.querySelector('.dialog');
 var dialogClose = document.querySelector('.dialog__close');
-var i;
+var activePin;
 
-function toggle(evt) {
-  for (i = 0; i < pins.length; i++) {
-    pins[i].classList.remove('pin--active');
-  }
-  evt.target.classList.add('pin--active');
-  dialog.style.display = 'block';
-}
-
+Array.prototype.forEach.call(pins, function (pin) {
+  pin.addEventListener('click', function () {
+    if (activePin) {
+      activePin.classList.remove('pin--active');
+    }
+    pin.classList.add('pin--active');
+    dialog.style.display = 'block';
+    activePin = pin;
+  });
+});
 
 dialogClose.addEventListener('click', function () {
   dialog.style.display = 'none';
 });
 
-for (i = 0; i < pins.length; i++) {
-  var element = pins[i];
-  element.addEventListener('click', toggle);
-}
 
 var inputTitle = document.getElementById('title');
 var inputPrice = document.getElementById('price');
