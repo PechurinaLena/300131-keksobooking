@@ -620,6 +620,7 @@ select option:hover {
     left: 536px;
 
     background-image: url("../img/pin.png");
+    outline: red;
 }
 
 .pin:hover {
@@ -629,6 +630,7 @@ select option:hover {
 .pin--active {
     background-image: url("../img/pin-active.png");
 }
+
 
 .pin img {
     margin-left: 8px;
