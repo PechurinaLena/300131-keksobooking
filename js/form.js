@@ -1,26 +1,55 @@
 'use strict';
-var pins = document.querySelectorAll('.pin');
+
+var tokyoPins = document.querySelector('.tokyo__pin-map');
 var dialog = document.querySelector('.dialog');
 var dialogClose = document.querySelector('.dialog__close');
-var i;
+var activePin;
+var eventCodeEnter = 13;
+var eventCodeEscape = 27;
 
-function toggle(evt) {
-  for (i = 0; i < pins.length; i++) {
-    pins[i].classList.remove('pin--active');
+var pinsClickHandler = function (evt) {
+  if (evt.type === 'keydown' && evt.keyCode !== eventCodeEnter) {
+    return;
   }
-  evt.target.classList.add('pin--active');
-  dialog.style.display = 'block';
-}
+  var target = evt.target;
 
+  // if (evt.type === 'keydown') {
+  //   if (evt.keyCode === eventCodeEnter) {
+  //     dialog.style.display = 'block';
+  //     dialogClose.focus();
+  //   } else {
+  //     return;
+  //   }
+  // }
+
+  if (target.tagName === 'IMG') {
+    target = target.parentNode;
+  }
+
+  if (activePin) {
+    activePin.classList.remove('pin--active');
+  }
+  target.classList.add('pin--active');
+  dialog.style.display = 'block';
+  dialogClose.focus();
+  activePin = target;
+
+};
+
+tokyoPins.addEventListener('click', pinsClickHandler, true);
+tokyoPins.addEventListener('keydown', pinsClickHandler, true);
 
 dialogClose.addEventListener('click', function () {
   dialog.style.display = 'none';
 });
 
-for (i = 0; i < pins.length; i++) {
-  var element = pins[i];
-  element.addEventListener('click', toggle);
-}
+dialogClose.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === eventCodeEscape || evt.keyCode === eventCodeEnter) {
+    dialog.style.display = 'none';
+    dialogClose.setAttribute('aria-pressed', 'true');
+  }
+});
+
 
 var inputTitle = document.getElementById('title');
 var inputPrice = document.getElementById('price');
@@ -35,8 +64,8 @@ inputPrice.max = 1000000;
 inputAddress.required = true;
 inputPrice.placeholder = 1000;
 var myForm = document.forms.my;
-var checkinTime = myForm.elements.time; // элемент select со временами въезда
-var checkoutTime = myForm.elements.timeout; // элемент select со временами выезда
+var checkinTime = myForm.elements.time; 
+var checkoutTime = myForm.elements.timeout; 
 var housing = myForm.elements.type;
 var roomNumber = myForm.elements.room_number;
 var guestsNumber = myForm.elements.capacity;
