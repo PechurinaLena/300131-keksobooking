@@ -26,25 +26,6 @@ var pinsClickHandler = function (evt) {
     }
   }
 
-
-// Альтернативное решение : 
-  // while (true) {
-  //   if (target.classList.contains('pin')) {
-  //     if (activePin) {
-  //       activePin.classList.remove('pin--active');
-  //     }
-  //     target.classList.add('pin--active');
-  //     dialog.style.display = 'block';
-  //     dialogClose.focus();
-  //     activePin = target;
-  //     return;
-  //   }
-  //   if (target === evt.currentTarget) {
-  //     return;
-  //   }
-  //   target = target.parentNode;
-  // }
-
 };
 
 tokyoPins.addEventListener('click', pinsClickHandler, true);
