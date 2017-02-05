@@ -12,16 +12,39 @@ var pinsClickHandler = function (evt) {
     return;
   }
   var target = evt.target;
-  while (!target.classList.contains('pin')) {
+  while (target !== evt.currentTarget) {
     target = target.parentNode;
+    if (target.classList.contains('pin')) {
+      if (activePin) {
+        activePin.classList.remove('pin--active');
+      }
+      target.classList.add('pin--active');
+      dialog.style.display = 'block';
+      dialogClose.focus();
+      activePin = target;
+      return;
+    }
   }
-  if (activePin) {
-    activePin.classList.remove('pin--active');
-  }
-  target.classList.add('pin--active');
-  dialog.style.display = 'block';
-  dialogClose.focus();
-  activePin = target;
+
+
+// Альтернативное решение : 
+  // while (true) {
+  //   if (target.classList.contains('pin')) {
+  //     if (activePin) {
+  //       activePin.classList.remove('pin--active');
+  //     }
+  //     target.classList.add('pin--active');
+  //     dialog.style.display = 'block';
+  //     dialogClose.focus();
+  //     activePin = target;
+  //     return;
+  //   }
+  //   if (target === evt.currentTarget) {
+  //     return;
+  //   }
+  //   target = target.parentNode;
+  // }
+
 };
 
 tokyoPins.addEventListener('click', pinsClickHandler, true);
