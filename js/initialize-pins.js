@@ -30,7 +30,7 @@ window.initializePins = function (element, evt) {
   element.addEventListener('keydown', pinsClickHandler, true);
   var dialogClickHandler = function (event) {
     if (event.keyCode === ESCAPE_KEY_CODE || event.keyCode === ENTER_KEY_CODE || event.type === 'click') {
-      element.style.display = 'none';
+      dialog.style.display = 'none';
       dialogClose.setAttribute('aria-pressed', 'true');
     }
   };
