@@ -2,45 +2,46 @@
 
 var tokyoPins = document.querySelector('.tokyo__pin-map');
 var dialog = document.querySelector('.dialog');
-var dialogClose = document.querySelector('.dialog__close');
-var activePin;
-var ENTER_KEY_CODE = 13;
-var ESCAPE_KEY_CODE = 27;
+// var dialogClose = document.querySelector('.dialog__close');
+// var activePin;
+// var ENTER_KEY_CODE = 13;
+// var ESCAPE_KEY_CODE = 27;
 
-var pinsClickHandler = function (evt) {
-  if (evt.type === 'keydown' && evt.keyCode !== ENTER_KEY_CODE) {
-    return;
-  }
-  var target = evt.target;
-  while (target !== evt.currentTarget) {
-    target = target.parentNode;
-    if (target.classList.contains('pin')) {
-      if (activePin) {
-        activePin.classList.remove('pin--active');
-      }
-      target.classList.add('pin--active');
-      dialog.style.display = 'block';
-      dialogClose.focus();
-      activePin = target;
-      return;
-    }
-  }
+// var pinsClickHandler = function (evt) {
+//   if (evt.type === 'keydown' && evt.keyCode !== ENTER_KEY_CODE) {
+//     return;
+//   }
+//   var target = evt.target;
+//   while (target !== evt.currentTarget) {
+//     target = target.parentNode;
+//     if (target.classList.contains('pin')) {
+//       if (activePin) {
+//         activePin.classList.remove('pin--active');
+//       }
+//       target.classList.add('pin--active');
+//       dialog.style.display = 'block';
+//       dialogClose.focus();
+//       activePin = target;
+//       return;
+//     }
+//   }
 
-};
+// };
 
-tokyoPins.addEventListener('click', pinsClickHandler, true);
-tokyoPins.addEventListener('keydown', pinsClickHandler, true);
+window.initializePins(tokyoPins, 'click');
+window.initializePins(tokyoPins, 'keydown');
+window.initializePins(dialog, 'click');
 
-dialogClose.addEventListener('click', function () {
-  dialog.style.display = 'none';
-});
+// dialogClose.addEventListener('click', function () {
+//   dialog.style.display = 'none';
+// });
 
-dialogClose.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ESCAPE_KEY_CODE || evt.keyCode === ENTER_KEY_CODE) {
-    dialog.style.display = 'none';
-    dialogClose.setAttribute('aria-pressed', 'true');
-  }
-});
+// dialogClose.addEventListener('keydown', function (evt) {
+//   if (evt.keyCode === ESCAPE_KEY_CODE || evt.keyCode === ENTER_KEY_CODE) {
+//     dialog.style.display = 'none';
+//     dialogClose.setAttribute('aria-pressed', 'true');
+//   }
+// });
 
 var inputTitle = document.getElementById('title');
 var inputPrice = document.getElementById('price');
