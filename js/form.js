@@ -28,9 +28,9 @@ var dialog = document.querySelector('.dialog');
 
 // };
 
-window.initializePins(tokyoPins, 'click');
-window.initializePins(tokyoPins, 'keydown');
-window.initializePins(dialog, 'click');
+window.initializePins(tokyoPins, dialog);
+// window.initializePins(tokyoPins, 'keydown');
+// window.initializePins(dialog, 'click');
 
 // dialogClose.addEventListener('click', function () {
 //   dialog.style.display = 'none';

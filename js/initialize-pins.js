@@ -1,6 +1,6 @@
 'use strict';
 
-window.initializePins = function (element, evt) {
+window.initializePins = function (mapElement, dialogElement) {
   var dialog = document.querySelector('.dialog');
   var dialogClose = document.querySelector('.dialog__close');
   var activePin;
@@ -17,23 +17,23 @@ window.initializePins = function (element, evt) {
       if (target.classList.contains('pin')) {
         if (activePin) {
           activePin.classList.remove('pin--active');
-        } 
+        }
         target.classList.add('pin--active');
         dialog.style.display = 'block';
         dialogClose.focus();
         activePin = target;
         return;
-      } 
-    } 
-  }; 
-  element.addEventListener('click', pinsClickHandler, true);
-  element.addEventListener('keydown', pinsClickHandler, true);
+      }
+    }
+  };
+  mapElement.addEventListener('click', pinsClickHandler, true);
+  mapElement.addEventListener('keydown', pinsClickHandler, true);
   var dialogClickHandler = function (event) {
     if (event.keyCode === ESCAPE_KEY_CODE || event.keyCode === ENTER_KEY_CODE || event.type === 'click') {
-      dialog.style.display = 'none';
+      dialogElement.style.display = 'none';
       dialogClose.setAttribute('aria-pressed', 'true');
     }
   };
-  element.addEventListener('click', dialogClickHandler);
-  element.addEventListener('keydown', dialogClickHandler);
+  dialogElement.addEventListener('click', dialogClickHandler);
+  dialogElement.addEventListener('keydown', dialogClickHandler);
 };
