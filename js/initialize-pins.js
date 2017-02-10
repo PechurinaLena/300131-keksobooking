@@ -19,18 +19,17 @@ window.initializePins = function (mapElement, dialogElement) {
     var target = evt.target;
     while (target !== evt.currentTarget) {
       if (target) {
-        target = target.parentNode;
         if (target.classList.contains('pin')) {
-        if (activePin) {
-          activePin.classList.remove('pin--active');
+          if (activePin) {
+            activePin.classList.remove('pin--active');
+          }
+          target.classList.add('pin--active');
+          showDialog();
+          activePin = target;
+          return;
         }
-        target.classList.add('pin--active');
-        showDialog();
-        activePin = target;
-        return;
+        target = target.parentNode;
       }
-      }
-      
     }
   };
   mapElement.addEventListener('click', pinsClickHandler, true);
