@@ -167,17 +167,17 @@
             <div class="form__element">
               <label for="time">Время заезда и выезда</label>
               <select id="time">
-                <option value="12">После 12</option>
-                <option value="13">После 13</option>
-                <option value="14">После 14</option>
+                <option value="in12">После 12</option>
+                <option value="in13">После 13</option>
+                <option value="in14">После 14</option>
               </select>
             </div>
             <div class="form__element">
               <label for="timeout">&nbsp;</label>
               <select id="timeout" title="Time to go out">
-                <option selected value="12">Выезд до 12</option>
-                <option value="13">Выезд до 13</option>
-                <option value="14">Выезд до 14</option>
+                <option selected value="out12">Выезд до 12</option>
+                <option value="out13">Выезд до 13</option>
+                <option value="out14">Выезд до 14</option>
               </select>
             </div>
           </div>
@@ -256,6 +256,8 @@
   </div>
 </footer>
 
+<script src="js/synchronize-fields.js" type="application/javascript"></script>
+<script src="js/initialize-pins.js" type="application/javascript"></script>
 <script src="js/form.js" type="application/javascript"></script>
 </body>
 </html>
