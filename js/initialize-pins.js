@@ -1,29 +1,36 @@
 'use strict';
 
 window.initializePins = function (mapElement, dialogElement) {
-  var dialog = document.querySelector('.dialog');
   var dialogClose = document.querySelector('.dialog__close');
-  var activePin;
+  var activePin = document.querySelector('.pin--active');
   var ENTER_KEY_CODE = 13;
   var ESCAPE_KEY_CODE = 27;
+
+  var showDialog = function () {
+    dialogElement.style.display = 'block';
+    dialogClose.focus();
+  };
 
   var pinsClickHandler = function (evt) {
     if (evt.type === 'keydown' && evt.keyCode !== ENTER_KEY_CODE) {
       return;
     }
+
     var target = evt.target;
     while (target !== evt.currentTarget) {
-      target = target.parentNode;
-      if (target.classList.contains('pin')) {
+      if (target) {
+        target = target.parentNode;
+        if (target.classList.contains('pin')) {
         if (activePin) {
           activePin.classList.remove('pin--active');
         }
         target.classList.add('pin--active');
-        dialog.style.display = 'block';
-        dialogClose.focus();
+        showDialog();
         activePin = target;
         return;
       }
+      }
+      
     }
   };
   mapElement.addEventListener('click', pinsClickHandler, true);
