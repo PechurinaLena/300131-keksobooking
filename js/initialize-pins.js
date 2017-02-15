@@ -41,6 +41,7 @@ window.initializePins = (function () {
       if (event.keyCode === ESCAPE_KEY_CODE || event.keyCode === ENTER_KEY_CODE || event.type === 'click') {
         dialogElement.style.display = 'none';
         dialogClose.setAttribute('aria-pressed', 'true');
+        activePin.classList.remove('pin--active');
       }
     };
     dialogElement.addEventListener('click', dialogClickHandler);
