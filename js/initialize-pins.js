@@ -1,21 +1,22 @@
 'use strict';
 
 window.initializePins = (function () {
-  var dialogClose = document.querySelector('.dialog__close');
   var activePin = document.querySelector('.pin--active');
   var ENTER_KEY_CODE = 13;
   var ESCAPE_KEY_CODE = 27;
 
   return function (mapElement, dialogElement) {
 
-    var showDialog = function () {
-      dialogElement.style.display = 'block';
-      dialogClose.focus();
-    };
-
     var pinsClickHandler = function (evt) {
-      if (evt.type === 'keydown' && evt.keyCode !== ENTER_KEY_CODE) {
-        return;
+      if (evt.type === 'keydown') {
+        if (evt.keyCode !== ENTER_KEY_CODE) {
+          return;
+        } else {
+          var pinToFocus = evt.target;
+          window.card.callback = function () {
+            pinToFocus.focus();
+          };
+        }
       }
 
       var target = evt.target;
@@ -26,7 +27,7 @@ window.initializePins = (function () {
               activePin.classList.remove('pin--active');
             }
             target.classList.add('pin--active');
-            showDialog();
+            window.card.show(mapElement, dialogElement);
             activePin = target;
             return;
           }
@@ -39,9 +40,7 @@ window.initializePins = (function () {
     mapElement.addEventListener('keydown', pinsClickHandler, true);
     var dialogClickHandler = function (event) {
       if (event.keyCode === ESCAPE_KEY_CODE || event.keyCode === ENTER_KEY_CODE || event.type === 'click') {
-        dialogElement.style.display = 'none';
-        dialogClose.setAttribute('aria-pressed', 'true');
-        activePin.classList.remove('pin--active');
+        window.card.close(dialogElement, activePin);
       }
     };
     dialogElement.addEventListener('click', dialogClickHandler);
