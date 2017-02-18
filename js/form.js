@@ -29,12 +29,26 @@
   var guestNumberValues = ['noguests', '3guests', '3guests'];
   var inputPriceValues = [1000, 0, 10000];
 
-  window.synchronizeFields(checkinTime, checkoutTime, checkinTimeValues, checkoutTimeValues, 'value');
-  window.synchronizeFields(checkoutTime, checkinTime, checkoutTimeValues, checkinTimeValues, 'value');
-  window.synchronizeFields(housing, inputPrice, housingValues, inputPriceValues, 'min');
-  window.synchronizeFields(housing, inputPrice, housingValues, inputPriceValues, 'placeholder');
-  window.synchronizeFields(roomNumber, guestsNumber, roomNumberValues, guestNumberValues, 'value');
-  window.synchronizeFields(guestsNumber, roomNumber, guestNumberValues, roomNumberValues, 'value');
+  window.synchronizeFields(checkinTime, checkinTimeValues, checkoutTimeValues, function (outputValue) {
+    checkoutTime.value = outputValue;
+  });
+  window.synchronizeFields(checkoutTime, checkoutTimeValues, checkinTimeValues, function (outputValue) {
+    checkinTime.value = outputValue;
+  });
+
+  window.synchronizeFields(housing, housingValues, inputPriceValues, function (outputValue) {
+    inputPrice.min = outputValue;
+    inputPrice.placeholder = outputValue;
+  });
+
+  window.synchronizeFields(roomNumber, roomNumberValues, guestNumberValues, function (outputValue) {
+    guestsNumber.value = outputValue;
+  });
+
+  window.synchronizeFields(guestsNumber, guestNumberValues, roomNumberValues, function (outputValue) {
+    roomNumber.value = outputValue;
+  });
+
 })();
 
 
