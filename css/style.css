@@ -500,7 +500,7 @@ select option:hover {
     position: absolute;
     top: 70px;
     left: 20px;
-    display: none;
+    display: block;
 
     width: 230px;
     height: 510px;
@@ -630,7 +630,6 @@ select option:hover {
 .pin--active {
     background-image: url("../img/pin-active.png");
 }
-
 
 .pin img {
     margin-left: 8px;
