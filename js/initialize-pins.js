@@ -5,21 +5,22 @@ window.initializePins = (function () {
   var activePin = document.querySelector('.pin--active');
   var ENTER_KEY_CODE = 13;
   var ESCAPE_KEY_CODE = 27;
-
+  var similarApartments;
 
   var pinsDataLoaded = function (data) {
     var tokyoPins = document.querySelector('.tokyo__pin-map');
-    var similarApartments = data;
-    similarApartments.splice(3, similarApartments.length - 3);
+    similarApartments = data;
+    similarApartments.splice(3);
     var templateElement = document.querySelector('#pin-template');
     var elementToClone = templateElement.content.querySelector('.pin');
 
     for (var j = 0; j < similarApartments.length; j++) {
       var newElement = elementToClone.cloneNode(true);
+      newElement.id = 'pin' + j;
       newElement.style.top = similarApartments[j].location.y + 'px';
       newElement.style.left = similarApartments[j].location.x + 'px';
       var images = newElement.querySelector('img');
-      var imgSrc = similarApartments[j].author.avatar.toString();
+      var imgSrc = similarApartments[j].author.avatar;
       images.src = imgSrc;
       tokyoPins.appendChild(newElement);
     }
@@ -48,7 +49,9 @@ window.initializePins = (function () {
               activePin.classList.remove('pin--active');
             }
             target.classList.add('pin--active');
-            window.card.show(mapElement, dialogElement);
+            var pinIndex = target.id.slice(3);
+            var cardInfo = similarApartments[pinIndex];
+            window.card.show(cardInfo);
             activePin = target;
             return;
           }
