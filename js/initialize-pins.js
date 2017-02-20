@@ -1,9 +1,30 @@
 'use strict';
 
 window.initializePins = (function () {
+  var dataURL = 'https://intensive-javascript-server-pedmyactpq.now.sh/keksobooking/data';
   var activePin = document.querySelector('.pin--active');
   var ENTER_KEY_CODE = 13;
   var ESCAPE_KEY_CODE = 27;
+
+
+  var pinsDataLoaded = function (data) {
+    var tokyoPins = document.querySelector('.tokyo__pin-map');
+    var similarApartments = data;
+    similarApartments.splice(3, similarApartments.length - 3);
+    var templateElement = document.querySelector('#pin-template');
+    var elementToClone = templateElement.content.querySelector('.pin');
+
+    for (var j = 0; j < similarApartments.length; j++) {
+      var newElement = elementToClone.cloneNode(true);
+      newElement.style.top = similarApartments[j].location.y + 'px';
+      newElement.style.left = similarApartments[j].location.x + 'px';
+      var images = newElement.querySelector('img');
+      var imgSrc = similarApartments[j].author.avatar.toString();
+      images.src = imgSrc;
+      tokyoPins.appendChild(newElement);
+    }
+  };
+  window.load(dataURL, pinsDataLoaded);
 
   return function (mapElement, dialogElement) {
 
