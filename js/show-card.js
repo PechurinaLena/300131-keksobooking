@@ -2,6 +2,7 @@
 
 window.card = (function () {
   var dialogClose = document.querySelector('.dialog__close');
+  // var dialog = document.querySelectorAll('.dialog');
   var tokyo = document.querySelector('.tokyo');
   // находим темплейт
   return {
@@ -10,18 +11,43 @@ window.card = (function () {
     //   dialogClose.focus();
     // },
     show: function (cardInfo) {
-      // берем template
       var dialogTemplate = document.querySelector('#dialog-template');
-      console.log(dialogTemplate);
-      // клонируем его
       var dialogToClone = dialogTemplate.content.querySelector('.dialog');
       var newDialog = dialogToClone.cloneNode(true);
-      var dialogTitle = newDialog.querySelector('.dialog__title');
-      console.log(dialogTitle);
-      dialogTitle.innerText = cardInfo.offer.title;
-      // ищем в клоне нужные элементы, заполняем
-      // данными из cardInfo
-      // вставляем клон на страницу
+
+      var lodgeTitle = newDialog.querySelector('.lodge__title');
+      lodgeTitle.innerText = cardInfo.offer.title;
+      var lodgeAdress = newDialog.querySelector('.lodge__address');
+      lodgeAdress.innerText = cardInfo.offer.address;
+      var lodgePrice = newDialog.querySelector('.lodge__price');
+      lodgePrice.innerText = cardInfo.offer.price + '₽/ночь';
+      var lodgeType = newDialog.querySelector('.lodge__type');
+      lodgeType.innerText = cardInfo.offer.type;
+      var lodgeDescription = newDialog.querySelector('.lodge__description');
+      lodgeDescription.innerText = cardInfo.offer.description;
+      var lodgeCheckinTime = newDialog.querySelector('.lodge__checkin-time');
+      var textCheckinOut = 'Заезд после ' + cardInfo.offer.checkin + ',' + ' выезд до ' + cardInfo.offer.checkout;
+      lodgeCheckinTime.innerText = textCheckinOut;
+      var lodgePhotos = newDialog.querySelector('.lodge__photos');
+      var lodgeFeatures = newDialog.querySelector('.lodge__features');
+      var photosURLs = cardInfo.offer.photos;
+      var features = cardInfo.offer.features;
+      for (var i = 0; i < photosURLs.length; i++) {
+        var newIMG = document.createElement('img');
+        newIMG.src = photosURLs[i];
+        newIMG.style.width = '52px';
+        newIMG.style.height = '52px';
+
+        lodgePhotos.appendChild(newIMG);
+      }
+
+      for (var j = 0; j < features.length; j++) {
+        var newSpan = document.createElement('span');
+        newSpan.classList.add('feature__image');
+        newSpan.classList.add('feature__image--' + features[j]);
+
+        lodgeFeatures.appendChild(newSpan);
+      }
       tokyo.appendChild(newDialog);
     },
     close: function (dialogElement, activePin) {
