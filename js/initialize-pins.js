@@ -62,6 +62,7 @@ window.initializePins = (function () {
 
     mapElement.addEventListener('click', pinsClickHandler, true);
     mapElement.addEventListener('keydown', pinsClickHandler, true);
+
     var dialogClickHandler = function (event) {
       if (event.keyCode === ESCAPE_KEY_CODE || event.keyCode === ENTER_KEY_CODE || event.type === 'click') {
         window.card.close(dialogElement, activePin);

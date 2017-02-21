@@ -2,19 +2,16 @@
 
 window.card = (function () {
   var dialogClose = document.querySelector('.dialog__close');
-  // var dialog = document.querySelectorAll('.dialog');
   var tokyo = document.querySelector('.tokyo');
-  // находим темплейт
   return {
-    // show: function (mapElement, dialogElement) {
-    //   dialogElement.style.display = 'block';
-    //   dialogClose.focus();
-    // },
     show: function (cardInfo) {
       var dialogTemplate = document.querySelector('#dialog-template');
       var dialogToClone = dialogTemplate.content.querySelector('.dialog');
+      var oldDialog = document.querySelector('.dialog');
+      if (oldDialog) {
+        oldDialog.parentNode.removeChild(oldDialog);
+      } 
       var newDialog = dialogToClone.cloneNode(true);
-
       var lodgeTitle = newDialog.querySelector('.lodge__title');
       lodgeTitle.innerText = cardInfo.offer.title;
       var lodgeAdress = newDialog.querySelector('.lodge__address');
