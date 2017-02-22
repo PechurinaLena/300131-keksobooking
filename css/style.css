@@ -632,6 +632,10 @@ select option:hover {
     background-image: url("../img/pin.png");
     outline: red;
 }
+.pin:focus {
+    outline: 5px solid red;
+}
+
 
 .pin:hover {
     cursor: pointer;

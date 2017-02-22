@@ -28,10 +28,10 @@ window.initializePins = (function () {
   window.load(dataURL, pinsDataLoaded);
 
 
-  return function (mapElement, dialogElement) {
+  return function (mapElement) {
     var dialogClickHandler = function (event) {
       if (event.keyCode === ESCAPE_KEY_CODE || event.keyCode === ENTER_KEY_CODE || event.type === 'click') {
-        window.card.close(dialogElement, activePin);
+        window.card.close(activePin);
       }
     };
     var pinsClickHandler = function (evt) {
@@ -40,8 +40,10 @@ window.initializePins = (function () {
           return;
         } else {
           var pinToFocus = evt.target;
+          console.log(pinToFocus);
           window.card.callback = function () {
             pinToFocus.focus();
+            console.log('pintofocus выполнился');
           };
         }
       }
@@ -56,7 +58,6 @@ window.initializePins = (function () {
             target.classList.add('pin--active');
             var pinIndex = target.id.slice(3);
             var cardInfo = similarApartments[pinIndex];
-            // window.card.show(cardInfo);
             window.card.show(cardInfo, dialogClickHandler);
             activePin = target;
             return;
@@ -68,13 +69,8 @@ window.initializePins = (function () {
 
     mapElement.addEventListener('click', pinsClickHandler, true);
     mapElement.addEventListener('keydown', pinsClickHandler, true);
-
-    // var dialogClickHandler = function (event) {
-    //   if (event.keyCode === ESCAPE_KEY_CODE || event.keyCode === ENTER_KEY_CODE || event.type === 'click') {
-    //     window.card.close(dialogElement, activePin);
-    //   }
-    // };
-    dialogElement.addEventListener('click', dialogClickHandler);
-    dialogElement.addEventListener('keydown', dialogClickHandler);
+    // dialogElement.addEventListener('click', dialogClickHandler);
+    // console.log(dialogElement, 'dialogElement');
+    // dialogElement.addEventListener('keydown', dialogClickHandler);
   };
 })();

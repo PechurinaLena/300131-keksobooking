@@ -34,11 +34,11 @@ window.card = (function () {
       window.utils.replaceAvatar(newDialog, cardInfo);
 
       tokyo.appendChild(newDialog);
+      closeDialog.focus();
     },
-    close: function (dialogElement, activePin) {
-      console.log('я выполнился');
-      dialogElement.style.display = 'none';
-      console.log(dialogElement, 'dialogElement is');
+    close: function (activePin) {
+      var dialogElement = document.querySelector('.dialog');
+      dialogElement.parentNode.removeChild(dialogElement);
       dialogClose.setAttribute('aria-pressed', 'true');
       activePin.classList.remove('pin--active');
       if (typeof this.callback === 'function') {
