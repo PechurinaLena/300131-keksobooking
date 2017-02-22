@@ -506,6 +506,16 @@ select option:hover {
     height: 510px;
 }
 
+.dialog-similar {
+    position: absolute;
+    top: 70px;
+    left: 20px;
+    display: block;
+
+    width: 230px;
+    height: 510px;
+}
+
 .dialog__title {
     position: relative;
 }
