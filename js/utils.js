@@ -35,5 +35,6 @@ window.utils = (function () {
       var lodgeAdress = dialog.querySelector('.lodge__address');
       lodgeAdress.innerText = cardInfo.offer.address;
     }
+    // similarPinsAppendtoDOM: function 
   };
 })();

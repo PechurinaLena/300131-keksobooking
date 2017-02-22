@@ -6,6 +6,8 @@ window.initializePins = (function () {
   var ENTER_KEY_CODE = 13;
   var ESCAPE_KEY_CODE = 27;
   var similarApartments;
+  var dialog = document.querySelector('.dialog');
+  dialog.style.display = 'none';
 
   var pinsDataLoaded = function (data) {
     var tokyoPins = document.querySelector('.tokyo__pin-map');
@@ -44,7 +46,7 @@ window.initializePins = (function () {
       var target = evt.target;
       while (target !== evt.currentTarget) {
         if (target) {
-          if (target.classList.contains('pin')) {
+          if (target.classList.contains('pin') && !target.classList.contains('pin__main')) {
             if (activePin) {
               activePin.classList.remove('pin--active');
             }
