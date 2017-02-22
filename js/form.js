@@ -3,6 +3,8 @@
   var tokyoPins = document.querySelector('.tokyo__pin-map');
   var dialog = document.querySelector('.dialog');
   window.initializePins(tokyoPins, dialog);
+  console.log('запущена функция window.initializePins');
+  console.log(dialog);
 
   var inputTitle = document.getElementById('title');
   var inputPrice = document.getElementById('price');
