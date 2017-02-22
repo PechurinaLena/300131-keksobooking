@@ -1,12 +1,10 @@
 'use strict';
 
 window.card = (function () {
-  var dialogClose = document.querySelector('.dialog__close');
+  var dialogToClone = document.querySelector('#dialog-template').content.querySelector('.dialog');
   var tokyo = document.querySelector('.tokyo');
   return {
     show: function (cardInfo, closeCallback) {
-      var dialogTemplate = document.querySelector('#dialog-template');
-      var dialogToClone = dialogTemplate.content.querySelector('.dialog');
       var oldDialog = document.querySelector('.dialog');
       if (oldDialog) {
         oldDialog.parentNode.removeChild(oldDialog);
@@ -17,19 +15,12 @@ window.card = (function () {
       closeDialog.addEventListener('click', closeCallback);
       closeDialog.addEventListener('keydown', closeCallback);
       window.utils.fillTextFields(newDialog, cardInfo);
-      var photosURLs = cardInfo.offer.photos;
-      var lodgePhotos = newDialog.querySelector('.lodge__photos');
-      for (var i = 0; i < photosURLs.length; i++) {
-        var newIMG = window.utils.createImage(photosURLs[i]);
-        lodgePhotos.appendChild(newIMG);
-      }
-      var lodgeFeatures = newDialog.querySelector('.lodge__features');
 
-      var features = cardInfo.offer.features;
-      for (var j = 0; j < features.length; j++) {
-        var newSpan = window.utils.featuresIcons(features[j]);
-        lodgeFeatures.appendChild(newSpan);
-      }
+      var lodgePhotos = newDialog.querySelector('.lodge__photos');
+      window.utils.renderImages(lodgePhotos, cardInfo.offer.photos);
+
+      var lodgeFeatures = newDialog.querySelector('.lodge__features');
+      window.utils.renderFeatures(lodgeFeatures, cardInfo.offer.features);
 
       window.utils.replaceAvatar(newDialog, cardInfo);
 
@@ -38,8 +29,9 @@ window.card = (function () {
     },
     close: function (activePin) {
       var dialogElement = document.querySelector('.dialog');
-      dialogElement.parentNode.removeChild(dialogElement);
+      var dialogClose = document.querySelector('.dialog__close');
       dialogClose.setAttribute('aria-pressed', 'true');
+      dialogElement.parentNode.removeChild(dialogElement);
       activePin.classList.remove('pin--active');
       if (typeof this.callback === 'function') {
         this.callback();

@@ -2,22 +2,34 @@
 
 window.utils = (function () {
   return {
-    // createClonedPins: function (elementToClone, dataArray) {
-    //   for (var j = 0; j < dataArray.length; j++) {
-    //     var newElement = elementToClone.cloneNode(true);
-    //     newElement.id = 'pin' + j;
-    //     newElement.style.top = dataArray[j].location.y + 'px';
-    //     newElement.style.left = dataArray[j].location.x + 'px';
-    //     return newElement;
-    //   }
-
-    // },
+    createClonedPins: function (elementToClone, dataArray, parent) {
+      for (var j = 0; j < dataArray.length; j++) {
+        var newElement = elementToClone.cloneNode(true);
+        newElement.id = 'pin' + j;
+        newElement.style.top = dataArray[j].location.y + 'px';
+        newElement.style.left = dataArray[j].location.x + 'px';
+        window.utils.addPinsImages(newElement, dataArray[j]);
+        parent.appendChild(newElement);
+      }
+    },
     createImage: function (src) {
       var newImage = document.createElement('img');
       newImage.src = src;
       newImage.style.width = '52px';
       newImage.style.height = '52px';
       return newImage;
+    },
+    renderImages: function (parent, data) {
+      for (var i = 0; i < data.length; i++) {
+        var newIMG = window.utils.createImage(data[i]);
+        parent.appendChild(newIMG);
+      }
+    },
+    renderFeatures: function (parent, data) {
+      for (var j = 0; j < data.length; j++) {
+        var newSpan = window.utils.featuresIcons(data[j]);
+        parent.appendChild(newSpan);
+      }
     },
     replaceAvatar: function (dialog, cardInfo) {
       var dialogTitle = dialog.querySelector('.dialog__title');

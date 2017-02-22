@@ -7,23 +7,14 @@ window.initializePins = (function () {
   var ESCAPE_KEY_CODE = 27;
   var similarApartments;
   var dialog = document.querySelector('.dialog');
+  var tokyoPins = document.querySelector('.tokyo__pin-map');
+  var elementToClone = document.querySelector('#pin-template').content.querySelector('.pin');
   dialog.style.display = 'none';
 
   var pinsDataLoaded = function (data) {
-    var tokyoPins = document.querySelector('.tokyo__pin-map');
     similarApartments = data;
     similarApartments.splice(3);
-    var templateElement = document.querySelector('#pin-template');
-    var elementToClone = templateElement.content.querySelector('.pin');
-
-    for (var j = 0; j < similarApartments.length; j++) {
-      var newElement = elementToClone.cloneNode(true);
-      newElement.id = 'pin' + j;
-      newElement.style.top = similarApartments[j].location.y + 'px';
-      newElement.style.left = similarApartments[j].location.x + 'px';
-      window.utils.addPinsImages(newElement, similarApartments[j]);
-      tokyoPins.appendChild(newElement);
-    }
+    window.utils.createClonedPins(elementToClone, similarApartments, tokyoPins);
   };
   window.load(dataURL, pinsDataLoaded);
 
@@ -40,10 +31,8 @@ window.initializePins = (function () {
           return;
         } else {
           var pinToFocus = evt.target;
-          console.log(pinToFocus);
           window.card.callback = function () {
             pinToFocus.focus();
-            console.log('pintofocus выполнился');
           };
         }
       }
@@ -66,11 +55,7 @@ window.initializePins = (function () {
         }
       }
     };
-
     mapElement.addEventListener('click', pinsClickHandler, true);
     mapElement.addEventListener('keydown', pinsClickHandler, true);
-    // dialogElement.addEventListener('click', dialogClickHandler);
-    // console.log(dialogElement, 'dialogElement');
-    // dialogElement.addEventListener('keydown', dialogClickHandler);
   };
 })();
