@@ -21,16 +21,19 @@ window.initializePins = (function () {
       newElement.id = 'pin' + j;
       newElement.style.top = similarApartments[j].location.y + 'px';
       newElement.style.left = similarApartments[j].location.x + 'px';
-      var images = newElement.querySelector('img');
-      var imgSrc = similarApartments[j].author.avatar;
-      images.src = imgSrc;
+      window.utils.addPinsImages(newElement, similarApartments[j]);
       tokyoPins.appendChild(newElement);
     }
   };
   window.load(dataURL, pinsDataLoaded);
 
-  return function (mapElement, dialogElement) {
 
+  return function (mapElement, dialogElement) {
+    var dialogClickHandler = function (event) {
+      if (event.keyCode === ESCAPE_KEY_CODE || event.keyCode === ENTER_KEY_CODE || event.type === 'click') {
+        window.card.close(dialogElement, activePin);
+      }
+    };
     var pinsClickHandler = function (evt) {
       if (evt.type === 'keydown') {
         if (evt.keyCode !== ENTER_KEY_CODE) {
@@ -53,7 +56,8 @@ window.initializePins = (function () {
             target.classList.add('pin--active');
             var pinIndex = target.id.slice(3);
             var cardInfo = similarApartments[pinIndex];
-            window.card.show(cardInfo);
+            // window.card.show(cardInfo);
+            window.card.show(cardInfo, dialogClickHandler);
             activePin = target;
             return;
           }
@@ -65,11 +69,11 @@ window.initializePins = (function () {
     mapElement.addEventListener('click', pinsClickHandler, true);
     mapElement.addEventListener('keydown', pinsClickHandler, true);
 
-    var dialogClickHandler = function (event) {
-      if (event.keyCode === ESCAPE_KEY_CODE || event.keyCode === ENTER_KEY_CODE || event.type === 'click') {
-        window.card.close(dialogElement, activePin);
-      }
-    };
+    // var dialogClickHandler = function (event) {
+    //   if (event.keyCode === ESCAPE_KEY_CODE || event.keyCode === ENTER_KEY_CODE || event.type === 'click') {
+    //     window.card.close(dialogElement, activePin);
+    //   }
+    // };
     dialogElement.addEventListener('click', dialogClickHandler);
     dialogElement.addEventListener('keydown', dialogClickHandler);
   };

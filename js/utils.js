@@ -2,6 +2,16 @@
 
 window.utils = (function () {
   return {
+    // createClonedPins: function (elementToClone, dataArray) {
+    //   for (var j = 0; j < dataArray.length; j++) {
+    //     var newElement = elementToClone.cloneNode(true);
+    //     newElement.id = 'pin' + j;
+    //     newElement.style.top = dataArray[j].location.y + 'px';
+    //     newElement.style.left = dataArray[j].location.x + 'px';
+    //     return newElement;
+    //   }
+
+    // },
     createImage: function (src) {
       var newImage = document.createElement('img');
       newImage.src = src;
@@ -14,7 +24,7 @@ window.utils = (function () {
       var dialogAvatar = dialogTitle.querySelector('img');
       dialogAvatar.src = cardInfo.author.avatar;
     },
-    featuresImages: function (featureClass) {
+    featuresIcons: function (featureClass) {
       var newSpan = document.createElement('span');
       newSpan.classList.add('feature__image');
       newSpan.classList.add('feature__image--' + featureClass);
@@ -34,7 +44,12 @@ window.utils = (function () {
       lodgeTitle.innerText = cardInfo.offer.title;
       var lodgeAdress = dialog.querySelector('.lodge__address');
       lodgeAdress.innerText = cardInfo.offer.address;
+    },
+    addPinsImages: function (domElement, dataItem) {
+      var images = domElement.querySelector('img');
+      var imgSrc = dataItem.author.avatar;
+      images.src = imgSrc;
+      return images;
     }
-    // similarPinsAppendtoDOM: function 
   };
 })();
