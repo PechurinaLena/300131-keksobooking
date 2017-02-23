@@ -10,7 +10,6 @@ window.card = (function () {
         oldDialog.parentNode.removeChild(oldDialog);
       }
       var newDialog = dialogToClone.cloneNode(true);
-      window.initializePins(tokyo, newDialog);
       var closeDialog = newDialog.querySelector('.dialog__close');
       closeDialog.addEventListener('click', closeCallback);
       closeDialog.addEventListener('keydown', closeCallback);

@@ -1,8 +1,5 @@
 'use strict';
 (function () {
-  var tokyoPins = document.querySelector('.tokyo__pin-map');
-  window.initializePins(tokyoPins);
-
   var inputTitle = document.getElementById('title');
   var inputPrice = document.getElementById('price');
   var inputAddress = document.getElementById('address');
