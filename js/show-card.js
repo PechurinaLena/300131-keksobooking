@@ -30,6 +30,8 @@ window.card = (function () {
       var dialogElement = document.querySelector('.dialog');
       var closeDialog = dialogElement.querySelector('.dialog__close');
       closeDialog.setAttribute('aria-pressed', 'true');
+      // closeDialog.removeEventListener('click', onDialogClose);
+      // closeDialog.addEventListener('keydown', onDialogClose);
       dialogElement.parentNode.removeChild(dialogElement);
       activePin.classList.remove('pin--active');
       if (typeof this.callback === 'function') {

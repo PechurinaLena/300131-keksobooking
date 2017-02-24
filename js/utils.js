@@ -21,6 +21,9 @@ window.utils = (function () {
   };
 
   var pinsClickHandler = function (evt) {
+    if (!filteredApartments) {
+      filteredApartments = similarApartments;
+    }
     if (evt.type === 'keydown') {
       if (evt.keyCode !== ENTER_KEY_CODE) {
         return;
@@ -51,18 +54,6 @@ window.utils = (function () {
     images.src = imgSrc;
     return images;
   };
-  var createClonedPins = function (data) {
-    data.forEach(function (element, j) {
-      var newElement = elementToClone.cloneNode(true);
-      newElement.id = 'pin' + j;
-      newElement.style.top = element.location.y + 'px';
-      newElement.style.left = element.location.x + 'px';
-      addPinsImages(newElement, element);
-      tokyoPins.appendChild(newElement);
-      newElement.addEventListener('click', pinsClickHandler);
-      newElement.addEventListener('keydown', pinsClickHandler);
-    });
-  };
 
   var createImage = function (src) {
     var newImage = document.createElement('img');
@@ -88,6 +79,18 @@ window.utils = (function () {
   };
 
   return {
+    createClonedPins: function (data) {
+      data.forEach(function (element, j) {
+        var newElement = elementToClone.cloneNode(true);
+        newElement.id = 'pin' + j;
+        newElement.style.top = element.location.y + 'px';
+        newElement.style.left = element.location.x + 'px';
+        addPinsImages(newElement, element);
+        tokyoPins.appendChild(newElement);
+        newElement.addEventListener('click', pinsClickHandler);
+        newElement.addEventListener('keydown', pinsClickHandler);
+      });
+    },
     renderImages: function (parent, data) {
       data.forEach(function (item) {
         var newIMG = createImage(item);
@@ -127,7 +130,6 @@ window.utils = (function () {
       similarApartments = data;
     },
     applyFilters: function () {
-
       var housingTypeValue = housingTypeSelect.value;
       filteredApartments = similarApartments.filter(function (element) {
         return element.offer.type === housingTypeValue || housingTypeValue === 'any';
@@ -166,7 +168,7 @@ window.utils = (function () {
         }
       });
       removeOldPins();
-      createClonedPins(filteredApartments);
+      window.utils.createClonedPins(filteredApartments);
     },
   };
 })();
