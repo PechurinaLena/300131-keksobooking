@@ -10,7 +10,6 @@ window.utils = (function () {
   var filteredApartments;
   var ENTER_KEY_CODE = 13;
   var ESCAPE_KEY_CODE = 27;
-
   var elementToClone = document.querySelector('#pin-template').content.querySelector('.pin');
   var tokyoPins = document.querySelector('.tokyo__pin-map');
   var activePin = document.querySelector('.pin--active');
@@ -25,12 +24,11 @@ window.utils = (function () {
     if (evt.type === 'keydown') {
       if (evt.keyCode !== ENTER_KEY_CODE) {
         return;
-      } else {
-        var pinToFocus = evt.target;
-        window.card.callback = function () {
-          pinToFocus.focus();
-        };
       }
+      var pinToFocus = evt.target;
+      window.card.callback = function () {
+        pinToFocus.focus();
+      };
     }
 
     var target = evt.currentTarget;
@@ -67,16 +65,16 @@ window.utils = (function () {
       return newImage;
     },
     renderImages: function (parent, data) {
-      for (var i = 0; i < data.length; i++) {
-        var newIMG = window.utils.createImage(data[i]);
+      data.forEach(function (item) {
+        var newIMG = window.utils.createImage(item);
         parent.appendChild(newIMG);
-      }
+      });
     },
     renderFeatures: function (parent, data) {
-      for (var j = 0; j < data.length; j++) {
-        var newSpan = window.utils.featuresIcons(data[j]);
+      data.forEach(function (item) {
+        var newSpan = window.utils.featuresIcons(item);
         parent.appendChild(newSpan);
-      }
+      });
     },
     replaceAvatar: function (dialog, cardInfo) {
       var dialogTitle = dialog.querySelector('.dialog__title');
@@ -118,11 +116,11 @@ window.utils = (function () {
     },
     removeOldPins: function () {
       var oldPins = document.querySelectorAll('.pin');
-      for (var i = 0; i < oldPins.length; i++) {
-        if (!oldPins[i].classList.contains('pin__main')) {
-          oldPins[i].parentNode.removeChild(oldPins[i]);
+      Array.prototype.forEach.call(oldPins, function (pin) {
+        if (!pin.classList.contains('pin__main')) {
+          pin.parentNode.removeChild(pin);
         }
-      }
+      });
     },
     applyFilters: function () {
 
@@ -156,15 +154,14 @@ window.utils = (function () {
       });
 
       var allFeatures = housingFeatures.querySelectorAll('input');
-      for (var i = 0; i < allFeatures.length; i++) {
-        var currentFeature = allFeatures[i];
+      Array.prototype.forEach.call(allFeatures, function (currentFeature) {
         if (currentFeature.checked) {
           var featureName = currentFeature.value;
           filteredApartments = filteredApartments.filter(function (element) {
             return element.offer.features.indexOf(featureName) >= 0;
           });
         }
-      }
+      });
       window.utils.removeOldPins();
       window.utils.createClonedPins(filteredApartments);
     },
