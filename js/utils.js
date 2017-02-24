@@ -44,35 +44,59 @@ window.utils = (function () {
       return;
     }
   };
+
+  var addPinsImages = function (domElement, dataItem) {
+    var images = domElement.querySelector('img');
+    var imgSrc = dataItem.author.avatar;
+    images.src = imgSrc;
+    return images;
+  };
+  var createClonedPins = function (data) {
+    data.forEach(function (element, j) {
+      var newElement = elementToClone.cloneNode(true);
+      newElement.id = 'pin' + j;
+      newElement.style.top = element.location.y + 'px';
+      newElement.style.left = element.location.x + 'px';
+      addPinsImages(newElement, element);
+      tokyoPins.appendChild(newElement);
+      newElement.addEventListener('click', pinsClickHandler);
+      newElement.addEventListener('keydown', pinsClickHandler);
+    });
+  };
+
+  var createImage = function (src) {
+    var newImage = document.createElement('img');
+    newImage.src = src;
+    newImage.style.width = '52px';
+    newImage.style.height = '52px';
+    return newImage;
+  };
+
+  var createFeatureIcon = function (featureClass) {
+    var newSpan = document.createElement('span');
+    newSpan.classList.add('feature__image');
+    newSpan.classList.add('feature__image--' + featureClass);
+    return newSpan;
+  };
+  var removeOldPins = function () {
+    var oldPins = document.querySelectorAll('.pin');
+    Array.prototype.forEach.call(oldPins, function (pin) {
+      if (!pin.classList.contains('pin__main')) {
+        pin.parentNode.removeChild(pin);
+      }
+    });
+  };
+
   return {
-    createClonedPins: function (data) {
-      data.forEach(function (element, j) {
-        var newElement = elementToClone.cloneNode(true);
-        newElement.id = 'pin' + j;
-        newElement.style.top = element.location.y + 'px';
-        newElement.style.left = element.location.x + 'px';
-        window.utils.addPinsImages(newElement, data[j]);
-        tokyoPins.appendChild(newElement);
-        newElement.addEventListener('click', pinsClickHandler);
-        newElement.addEventListener('keydown', pinsClickHandler);
-      });
-    },
-    createImage: function (src) {
-      var newImage = document.createElement('img');
-      newImage.src = src;
-      newImage.style.width = '52px';
-      newImage.style.height = '52px';
-      return newImage;
-    },
     renderImages: function (parent, data) {
       data.forEach(function (item) {
-        var newIMG = window.utils.createImage(item);
+        var newIMG = createImage(item);
         parent.appendChild(newIMG);
       });
     },
     renderFeatures: function (parent, data) {
       data.forEach(function (item) {
-        var newSpan = window.utils.featuresIcons(item);
+        var newSpan = createFeatureIcon(item);
         parent.appendChild(newSpan);
       });
     },
@@ -80,12 +104,6 @@ window.utils = (function () {
       var dialogTitle = dialog.querySelector('.dialog__title');
       var dialogAvatar = dialogTitle.querySelector('img');
       dialogAvatar.src = cardInfo.author.avatar;
-    },
-    featuresIcons: function (featureClass) {
-      var newSpan = document.createElement('span');
-      newSpan.classList.add('feature__image');
-      newSpan.classList.add('feature__image--' + featureClass);
-      return newSpan;
     },
     fillTextFields: function (dialog, cardInfo) {
       var lodgeCheckinTime = dialog.querySelector('.lodge__checkin-time');
@@ -105,22 +123,8 @@ window.utils = (function () {
       var lodgeAdress = dialog.querySelector('.lodge__address');
       lodgeAdress.innerText = cardInfo.offer.address;
     },
-    addPinsImages: function (domElement, dataItem) {
-      var images = domElement.querySelector('img');
-      var imgSrc = dataItem.author.avatar;
-      images.src = imgSrc;
-      return images;
-    },
     feedApartmentsData: function (data) {
       similarApartments = data;
-    },
-    removeOldPins: function () {
-      var oldPins = document.querySelectorAll('.pin');
-      Array.prototype.forEach.call(oldPins, function (pin) {
-        if (!pin.classList.contains('pin__main')) {
-          pin.parentNode.removeChild(pin);
-        }
-      });
     },
     applyFilters: function () {
 
@@ -142,7 +146,6 @@ window.utils = (function () {
         return true;
       });
 
-
       var roomNumber = housingRoomNumber.value;
       filteredApartments = filteredApartments.filter(function (element) {
         return roomNumber === 'any' || element.offer.rooms.toString() === roomNumber;
@@ -162,8 +165,8 @@ window.utils = (function () {
           });
         }
       });
-      window.utils.removeOldPins();
-      window.utils.createClonedPins(filteredApartments);
+      removeOldPins();
+      createClonedPins(filteredApartments);
     },
   };
 })();

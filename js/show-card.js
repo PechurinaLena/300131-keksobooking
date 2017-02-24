@@ -3,16 +3,16 @@
 window.card = (function () {
   var dialogToClone = document.querySelector('#dialog-template').content.querySelector('.dialog');
   var tokyo = document.querySelector('.tokyo');
+  var closeDialog = document.querySelector('.dialog__close');
   return {
-    show: function (cardInfo, closeCallback) {
+    show: function (cardInfo, onDialogClose) {
       var oldDialog = document.querySelector('.dialog');
       if (oldDialog) {
         oldDialog.parentNode.removeChild(oldDialog);
       }
       var newDialog = dialogToClone.cloneNode(true);
-      var closeDialog = newDialog.querySelector('.dialog__close');
-      closeDialog.addEventListener('click', closeCallback);
-      closeDialog.addEventListener('keydown', closeCallback);
+      closeDialog.addEventListener('click', onDialogClose);
+      closeDialog.addEventListener('keydown', onDialogClose);
       window.utils.fillTextFields(newDialog, cardInfo);
 
       var lodgePhotos = newDialog.querySelector('.lodge__photos');
@@ -28,8 +28,7 @@ window.card = (function () {
     },
     close: function (activePin) {
       var dialogElement = document.querySelector('.dialog');
-      var dialogClose = document.querySelector('.dialog__close');
-      dialogClose.setAttribute('aria-pressed', 'true');
+      closeDialog.setAttribute('aria-pressed', 'true');
       dialogElement.parentNode.removeChild(dialogElement);
       activePin.classList.remove('pin--active');
       if (typeof this.callback === 'function') {
