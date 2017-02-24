@@ -8,14 +8,16 @@ window.utils = (function () {
   var housingFeatures = document.getElementById('housing_features');
   var similarApartments;
   var filteredApartments;
-  var ENTER_KEY_CODE = 13;
-  var ESCAPE_KEY_CODE = 27;
+  var KEY_CODE = {
+    ENTER: 13,
+    ESCAPE: 27
+  };
   var elementToClone = document.querySelector('#pin-template').content.querySelector('.pin');
   var tokyoPins = document.querySelector('.tokyo__pin-map');
   var activePin = document.querySelector('.pin--active');
 
   var dialogClickHandler = function (event) {
-    if (event.keyCode === ESCAPE_KEY_CODE || event.keyCode === ENTER_KEY_CODE || event.type === 'click') {
+    if (event.keyCode === KEY_CODE.ENTER || event.keyCode === KEY_CODE.ENTER || event.type === 'click') {
       window.card.close(activePin);
     }
   };
@@ -25,7 +27,7 @@ window.utils = (function () {
       filteredApartments = similarApartments;
     }
     if (evt.type === 'keydown') {
-      if (evt.keyCode !== ENTER_KEY_CODE) {
+      if (evt.keyCode !== KEY_CODE.ENTER) {
         return;
       }
       var pinToFocus = evt.target;
@@ -48,27 +50,6 @@ window.utils = (function () {
     }
   };
 
-  var addPinsImages = function (domElement, dataItem) {
-    var images = domElement.querySelector('img');
-    var imgSrc = dataItem.author.avatar;
-    images.src = imgSrc;
-    return images;
-  };
-
-  var createImage = function (src) {
-    var newImage = document.createElement('img');
-    newImage.src = src;
-    newImage.style.width = '52px';
-    newImage.style.height = '52px';
-    return newImage;
-  };
-
-  var createFeatureIcon = function (featureClass) {
-    var newSpan = document.createElement('span');
-    newSpan.classList.add('feature__image');
-    newSpan.classList.add('feature__image--' + featureClass);
-    return newSpan;
-  };
   var removeOldPins = function () {
     var oldPins = document.querySelectorAll('.pin');
     Array.prototype.forEach.call(oldPins, function (pin) {
@@ -85,47 +66,13 @@ window.utils = (function () {
         newElement.id = 'pin' + j;
         newElement.style.top = element.location.y + 'px';
         newElement.style.left = element.location.x + 'px';
-        addPinsImages(newElement, element);
+        window.fillCard.addPinsImages(newElement, element);
         tokyoPins.appendChild(newElement);
         newElement.addEventListener('click', pinsClickHandler);
         newElement.addEventListener('keydown', pinsClickHandler);
       });
     },
-    renderImages: function (parent, data) {
-      data.forEach(function (item) {
-        var newIMG = createImage(item);
-        parent.appendChild(newIMG);
-      });
-    },
-    renderFeatures: function (parent, data) {
-      data.forEach(function (item) {
-        var newSpan = createFeatureIcon(item);
-        parent.appendChild(newSpan);
-      });
-    },
-    replaceAvatar: function (dialog, cardInfo) {
-      var dialogTitle = dialog.querySelector('.dialog__title');
-      var dialogAvatar = dialogTitle.querySelector('img');
-      dialogAvatar.src = cardInfo.author.avatar;
-    },
-    fillTextFields: function (dialog, cardInfo) {
-      var lodgeCheckinTime = dialog.querySelector('.lodge__checkin-time');
-      var textCheckinOut = 'Заезд после ' + cardInfo.offer.checkin + ',' + ' выезд до ' + cardInfo.offer.checkout;
-      lodgeCheckinTime.innerText = textCheckinOut;
-      var lodgeRoomsAndGuests = dialog.querySelector('.lodge__rooms-and-guests');
-      var textRoomsAndGuests = cardInfo.offer.rooms + ' комнаты для ' + cardInfo.offer.guests + ' гостей';
-      lodgeRoomsAndGuests.innerText = textRoomsAndGuests;
-      var lodgeDescription = dialog.querySelector('.lodge__description');
-      lodgeDescription.innerText = cardInfo.offer.description;
-      var lodgeType = dialog.querySelector('.lodge__type');
-      lodgeType.innerText = cardInfo.offer.type;
-      var lodgePrice = dialog.querySelector('.lodge__price');
-      lodgePrice.innerText = cardInfo.offer.price + '₽/ночь';
-      var lodgeTitle = dialog.querySelector('.lodge__title');
-      lodgeTitle.innerText = cardInfo.offer.title;
-      var lodgeAdress = dialog.querySelector('.lodge__address');
-      lodgeAdress.innerText = cardInfo.offer.address;
-    },
+
     feedApartmentsData: function (data) {
       similarApartments = data;
     },

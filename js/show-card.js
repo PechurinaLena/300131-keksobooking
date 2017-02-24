@@ -13,15 +13,15 @@ window.card = (function () {
       var closeDialog = newDialog.querySelector('.dialog__close');
       closeDialog.addEventListener('click', onDialogClose);
       closeDialog.addEventListener('keydown', onDialogClose);
-      window.utils.fillTextFields(newDialog, cardInfo);
+      window.fillCard.fillTextFields(newDialog, cardInfo); // поменять ссылку на fillCard
 
       var lodgePhotos = newDialog.querySelector('.lodge__photos');
-      window.utils.renderImages(lodgePhotos, cardInfo.offer.photos);
+      window.fillCard.renderImages(lodgePhotos, cardInfo.offer.photos);
 
       var lodgeFeatures = newDialog.querySelector('.lodge__features');
-      window.utils.renderFeatures(lodgeFeatures, cardInfo.offer.features);
+      window.fillCard.renderFeatures(lodgeFeatures, cardInfo.offer.features);
 
-      window.utils.replaceAvatar(newDialog, cardInfo);
+      window.fillCard.replaceAvatar(newDialog, cardInfo);
 
       tokyo.appendChild(newDialog);
       closeDialog.focus();
