@@ -3,6 +3,9 @@
 window.utils = (function () {
   var housingTypeSelect = document.getElementById('housing_type');
   var housingPriceSelect = document.getElementById('housing_price');
+  var housingRoomNumber = document.getElementById('housing_room-number');
+  var housingGuestsSelect = document.getElementById('housing_guests-number');
+  var housingFeatures = document.getElementById('housing_features');
   var similarApartments;
   var filteredApartments;
   var ENTER_KEY_CODE = 13;
@@ -45,17 +48,16 @@ window.utils = (function () {
   };
   return {
     createClonedPins: function (data) {
-      for (var j = 0; j < data.length; j++) {
+      data.forEach(function (element, j) {
         var newElement = elementToClone.cloneNode(true);
         newElement.id = 'pin' + j;
-        newElement.style.top = data[j].location.y + 'px';
-        newElement.style.left = data[j].location.x + 'px';
+        newElement.style.top = element.location.y + 'px';
+        newElement.style.left = element.location.x + 'px';
         window.utils.addPinsImages(newElement, data[j]);
         tokyoPins.appendChild(newElement);
         newElement.addEventListener('click', pinsClickHandler);
         newElement.addEventListener('keydown', pinsClickHandler);
-        console.log('пины склонированы');
-      }
+      });
     },
     createImage: function (src) {
       var newImage = document.createElement('img');
@@ -91,6 +93,9 @@ window.utils = (function () {
       var lodgeCheckinTime = dialog.querySelector('.lodge__checkin-time');
       var textCheckinOut = 'Заезд после ' + cardInfo.offer.checkin + ',' + ' выезд до ' + cardInfo.offer.checkout;
       lodgeCheckinTime.innerText = textCheckinOut;
+      var lodgeRoomsAndGuests = dialog.querySelector('.lodge__rooms-and-guests');
+      var textRoomsAndGuests = cardInfo.offer.rooms + ' комнаты для ' + cardInfo.offer.guests + ' гостей';
+      lodgeRoomsAndGuests.innerText = textRoomsAndGuests;
       var lodgeDescription = dialog.querySelector('.lodge__description');
       lodgeDescription.innerText = cardInfo.offer.description;
       var lodgeType = dialog.querySelector('.lodge__type');
@@ -110,18 +115,14 @@ window.utils = (function () {
     },
     feedApartmentsData: function (data) {
       similarApartments = data;
-      console.log('similarApartments is', similarApartments);
     },
     removeOldPins: function () {
       var oldPins = document.querySelectorAll('.pin');
-      console.log('в OldPins сейчас содержится', oldPins);
       for (var i = 0; i < oldPins.length; i++) {
         if (!oldPins[i].classList.contains('pin__main')) {
           oldPins[i].parentNode.removeChild(oldPins[i]);
-          console.log(oldPins[i].parentNode, 'это parentNode');
         }
       }
-      console.log('removeOldPins отработали');
     },
     applyFilters: function () {
 
@@ -143,6 +144,27 @@ window.utils = (function () {
         return true;
       });
 
+
+      var roomNumber = housingRoomNumber.value;
+      filteredApartments = filteredApartments.filter(function (element) {
+        return roomNumber === 'any' || element.offer.rooms.toString() === roomNumber;
+      });
+
+      var guestNumber = housingGuestsSelect.value;
+      filteredApartments = filteredApartments.filter(function (element) {
+        return guestNumber === 'any' || element.offer.guests.toString() === guestNumber;
+      });
+
+      var allFeatures = housingFeatures.querySelectorAll('input');
+      for (var i = 0; i < allFeatures.length; i++) {
+        var currentFeature = allFeatures[i];
+        if (currentFeature.checked) {
+          var featureName = currentFeature.value;
+          filteredApartments = filteredApartments.filter(function (element) {
+            return element.offer.features.indexOf(featureName) >= 0;
+          });
+        }
+      }
       window.utils.removeOldPins();
       window.utils.createClonedPins(filteredApartments);
     },
