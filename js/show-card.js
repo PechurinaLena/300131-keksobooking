@@ -3,7 +3,6 @@
 window.card = (function () {
   var dialogToClone = document.querySelector('#dialog-template').content.querySelector('.dialog');
   var tokyo = document.querySelector('.tokyo');
-  var closeDialog = document.querySelector('.dialog__close');
   return {
     show: function (cardInfo, onDialogClose) {
       var oldDialog = document.querySelector('.dialog');
@@ -11,6 +10,7 @@ window.card = (function () {
         oldDialog.parentNode.removeChild(oldDialog);
       }
       var newDialog = dialogToClone.cloneNode(true);
+      var closeDialog = newDialog.querySelector('.dialog__close');
       closeDialog.addEventListener('click', onDialogClose);
       closeDialog.addEventListener('keydown', onDialogClose);
       window.utils.fillTextFields(newDialog, cardInfo);
@@ -28,6 +28,7 @@ window.card = (function () {
     },
     close: function (activePin) {
       var dialogElement = document.querySelector('.dialog');
+      var closeDialog = dialogElement.querySelector('.dialog__close');
       closeDialog.setAttribute('aria-pressed', 'true');
       dialogElement.parentNode.removeChild(dialogElement);
       activePin.classList.remove('pin--active');
