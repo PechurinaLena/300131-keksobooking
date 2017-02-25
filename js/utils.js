@@ -6,79 +6,14 @@ window.utils = (function () {
   var housingRoomNumber = document.getElementById('housing_room-number');
   var housingGuestsSelect = document.getElementById('housing_guests-number');
   var housingFeatures = document.getElementById('housing_features');
-  var similarApartments;
-  var filteredApartments;
-  var KEY_CODE = {
-    ENTER: 13,
-    ESCAPE: 27
-  };
-  var elementToClone = document.querySelector('#pin-template').content.querySelector('.pin');
-  var tokyoPins = document.querySelector('.tokyo__pin-map');
-  var activePin = document.querySelector('.pin--active');
-
-  var dialogClickHandler = function (event) {
-    if (event.keyCode === KEY_CODE.ENTER || event.keyCode === KEY_CODE.ENTER || event.type === 'click') {
-      window.card.close(activePin);
-    }
-  };
-
-  var pinsClickHandler = function (evt) {
-    if (!filteredApartments) {
-      filteredApartments = similarApartments;
-    }
-    if (evt.type === 'keydown') {
-      if (evt.keyCode !== KEY_CODE.ENTER) {
-        return;
-      }
-      var pinToFocus = evt.target;
-      window.card.callback = function () {
-        pinToFocus.focus();
-      };
-    }
-
-    var target = evt.currentTarget;
-    if (target.classList.contains('pin') && !target.classList.contains('pin__main')) {
-      if (activePin) {
-        activePin.classList.remove('pin--active');
-      }
-      target.classList.add('pin--active');
-      var pinIndex = target.id.slice(3);
-      var cardInfo = filteredApartments[pinIndex];
-      window.card.show(cardInfo, dialogClickHandler);
-      activePin = target;
-      return;
-    }
-  };
-
-  var removeOldPins = function () {
-    var oldPins = document.querySelectorAll('.pin');
-    Array.prototype.forEach.call(oldPins, function (pin) {
-      if (!pin.classList.contains('pin__main')) {
-        pin.parentNode.removeChild(pin);
-      }
-    });
-  };
-
   return {
-    createClonedPins: function (data) {
-      data.forEach(function (element, j) {
-        var newElement = elementToClone.cloneNode(true);
-        newElement.id = 'pin' + j;
-        newElement.style.top = element.location.y + 'px';
-        newElement.style.left = element.location.x + 'px';
-        window.fillCard.addPinsImages(newElement, element);
-        tokyoPins.appendChild(newElement);
-        newElement.addEventListener('click', pinsClickHandler);
-        newElement.addEventListener('keydown', pinsClickHandler);
-      });
+    KEY_CODE: {
+      ENTER: 13,
+      ESCAPE: 27
     },
-
-    feedApartmentsData: function (data) {
-      similarApartments = data;
-    },
-    applyFilters: function () {
+    applyFilters: function (similarApartments) {
       var housingTypeValue = housingTypeSelect.value;
-      filteredApartments = similarApartments.filter(function (element) {
+      var filteredApartments = similarApartments.filter(function (element) {
         return element.offer.type === housingTypeValue || housingTypeValue === 'any';
       });
 
@@ -114,8 +49,7 @@ window.utils = (function () {
           });
         }
       });
-      removeOldPins();
-      window.utils.createClonedPins(filteredApartments);
+      return filteredApartments;
     },
   };
 })();
