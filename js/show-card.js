@@ -4,10 +4,11 @@ window.card = (function () {
   var dialogToClone = document.querySelector('#dialog-template').content.querySelector('.dialog');
   var tokyo = document.querySelector('.tokyo');
   var dialogCloseHandler;
+  var currentDialog;
 
-  var getClone = function () {
+  var createDialog = function () {
     var newDialog = dialogToClone.cloneNode(true);
-    return {
+    currentDialog = {
       dialog: newDialog,
       closeButton: newDialog.querySelector('.dialog__close'),
       lodgePhotos: newDialog.querySelector('.lodge__photos'),
@@ -15,30 +16,32 @@ window.card = (function () {
     };
   };
 
+  var destroyDialog = function () {
+    if (currentDialog && currentDialog.dialog) {
+      currentDialog.closeButton.removeEventListener('click', dialogCloseHandler);
+      currentDialog.closeButton.removeEventListener('keydown', dialogCloseHandler);
+      currentDialog.dialog.parentNode.removeChild(currentDialog.dialog);
+      currentDialog = null;
+    }
+  };
+
   return {
     show: function (cardInfo, onDialogClose) {
       dialogCloseHandler = onDialogClose;
-      var oldDialog = document.querySelector('.dialog');
-      if (oldDialog) {
-        oldDialog.parentNode.removeChild(oldDialog);
-      }
-      var clone = getClone();
-      clone.closeButton.addEventListener('click', dialogCloseHandler);
-      clone.closeButton.addEventListener('keydown', dialogCloseHandler);
-      window.fillCard.fillTextFields(clone.dialog, cardInfo);
-      window.fillCard.renderImages(clone.lodgePhotos, cardInfo.offer.photos);
-      window.fillCard.renderFeatures(clone.lodgeFeatures, cardInfo.offer.features);
-      window.fillCard.replaceAvatar(clone.dialog, cardInfo);
-      tokyo.appendChild(clone.dialog);
-      clone.closeButton.focus();
+      destroyDialog();
+      createDialog();
+      currentDialog.closeButton.addEventListener('click', dialogCloseHandler);
+      currentDialog.closeButton.addEventListener('keydown', dialogCloseHandler);
+      window.fillCard.fillTextFields(currentDialog.dialog, cardInfo);
+      window.fillCard.renderImages(currentDialog.lodgePhotos, cardInfo.offer.photos);
+      window.fillCard.renderFeatures(currentDialog.lodgeFeatures, cardInfo.offer.features);
+      window.fillCard.replaceAvatar(currentDialog.dialog, cardInfo);
+      tokyo.appendChild(currentDialog.dialog);
+      currentDialog.closeButton.focus();
     },
     close: function (activePin) {
-      var dialogElement = document.querySelector('.dialog');
-      var closeButton = dialogElement.querySelector('.dialog__close');
-      closeButton.setAttribute('aria-pressed', 'true');
-      closeButton.removeEventListener('click', dialogCloseHandler);
-      closeButton.removeEventListener('keydown', dialogCloseHandler);
-      dialogElement.parentNode.removeChild(dialogElement);
+      currentDialog.closeButton.setAttribute('aria-pressed', 'true');
+      destroyDialog();
       activePin.classList.remove('pin--active');
       if (typeof this.callback === 'function') {
         this.callback();
