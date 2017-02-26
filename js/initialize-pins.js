@@ -59,6 +59,10 @@
       newElement.style.left = element.location.x + 'px';
       window.fillCard.addPinsImages(newElement, element);
       tokyoPins.appendChild(newElement);
+      if (j === 0) {
+        var innerImage = newElement.querySelector('img');
+        innerImage.focus();
+      }
       newElement.addEventListener('click', pinsClickHandler);
       newElement.addEventListener('keydown', pinsClickHandler);
     });
