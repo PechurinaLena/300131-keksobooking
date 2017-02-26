@@ -6,6 +6,8 @@ window.utils = (function () {
   var housingRoomNumber = document.getElementById('housing_room-number');
   var housingGuestsSelect = document.getElementById('housing_guests-number');
   var housingFeatures = document.getElementById('housing_features');
+  var lowPrice = 10000;
+  var highPrice = 50000;
   return {
     KEY_CODE: {
       ENTER: 13,
@@ -21,11 +23,11 @@ window.utils = (function () {
       filteredApartments = filteredApartments.filter(function (element) {
         switch (priceValue) {
           case 'low':
-            return element.offer.price < 10000;
+            return element.offer.price < lowPrice;
           case 'middle':
-            return element.offer.price >= 10000 && element.offer.price < 50000;
+            return element.offer.price >= lowPrice && element.offer.price < highPrice;
           case 'high':
-            return element.offer.price >= 50000;
+            return element.offer.price >= highPrice;
         }
         return true;
       });
