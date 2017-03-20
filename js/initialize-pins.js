@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var dataURL = 'http://t1r1.ru/portfolio/keksobooking/data';
+  var dataURL = 'http://t1r1.ru/portfolio/keksobooking/data/data.json';
   var filterForm = document.querySelector('.tokyo__filters');
   var pinToClone = document.querySelector('#pin-template').content.querySelector('.pin');
   var tokyoPins = document.querySelector('.tokyo__pin-map');
